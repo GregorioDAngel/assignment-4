@@ -398,8 +398,13 @@ function loadStates() {
 
 	fetch("states.json")
 		.then((response) => {
-			if (response.ok) {
-				throw new Error("Network response was not ok.");
+			if (!response.ok) {
+				throw new Error(
+					"Network response was not ok: " +
+						response.status +
+						" " +
+						response.statusText,
+				);
 			}
 			return response.json();
 		})
@@ -421,6 +426,7 @@ function loadStates() {
 		})
 		.catch((error) => {
 			console.error("Error loading states:", error);
+			alert("Error loading states: " + error.message);
 			stateSelect.innerHTML = '<option value="">Error loading states</option>';
 		});
 }
