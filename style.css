@@ -142,3 +142,40 @@ td.outputdata {
 	font-size: 20px;
 	width: auto;
 }
+
+#header {
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+	background-color: #011d42;
+	transition:
+		padding 0.35s ease-out,
+		height 0.35s ease-out;
+	padding: 10px 0;
+}
+
+#header img {
+	width: 220px;
+	height: 220px;
+	transition:
+		width 0.35s ease-out,
+		height 0.35s ease-out;
+}
+
+#header p.title {
+	font-size: 60px;
+	transition: font-size 0.25s ease-out;
+}
+
+#header.header-scrolled {
+	padding: 2px 0;
+}
+
+#header.header-scrolled img {
+	width: 140px;
+	height: 140px;
+}
+
+#header.header-scrolled p.title {
+	font-size: 42px;
+}

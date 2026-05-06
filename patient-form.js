@@ -476,4 +476,27 @@ function checkform() {
 		alert("Please fix the indicated errors before submitting!");
 	}
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+	const header = document.getElementById("header");
+	if (!header) {
+		console.log("Header not found");
+		return;
+	}
+
+	function onScroll() {
+		// Debug line so you can see this is firing
+		// console.log("scrollY:", window.scrollY);
+		if (window.scrollY > 50) {
+			header.classList.add("header-scrolled");
+		} else {
+			header.classList.remove("header-scrolled");
+		}
+	}
+
+	// Run once in case the page loads scrolled
+	onScroll();
+	window.addEventListener("scroll", onScroll);
+});
+
 /* End of document: patient-form.js */

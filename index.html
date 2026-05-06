@@ -14,7 +14,6 @@
 
 		<!-- This is the link to the css file -->
 		<link rel="stylesheet" href="style.css" type="text/css" />
-		<script src="patient-form.js"></script>
 	</head>
 	<!-- This is the header for the page -->
 	<body
@@ -26,7 +25,7 @@
 			<table width="100%">
 				<tbody>
 					<tr>
-						<td class="Logo" width="300" height="300">
+						<td class="Logo">
 							<img
 								src="UnitedMedicalLogo.jpg"
 								alt="logo"
@@ -652,17 +651,21 @@
 		</div>
 		<hr />
 		<!-- This is the footer for the page -->
-		<div id="footer">
-			<p class="footer">
-				United Medical<br />
-				123 Main Street, Anytown, USA <br />
-				(123) 456-7890
-			</p>
-			<!-- This is the action that sends the user to the contact page in the future -->
-			<form action="contact.html">
-				<input type="submit" value="Contact Us" />
-			</form>
-		</div>
+		<iframe
+			id="footer-frame"
+			src="footer.html"
+			style="
+				width: 100%;
+				border: none;
+				bottom: 0;
+				z-index: 1000;
+				background: white;
+			"
+			scrolling="no"
+		></iframe>
+		<form action="contact.html">
+			<input type="submit" value="Contact Us" />
+		</form>
 		<div>
 			<p class="outputdata" id="outputformdata" style="display: none"></p>
 		</div>
