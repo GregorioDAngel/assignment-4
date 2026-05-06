@@ -1,0 +1,728 @@
+<!doctype html>
+<!--
+    Name: patient-form for MIS 3371 assignment 4
+    Author: Gregorio Del Angel
+    File: patient-form.html (has to be named index.html for github to read and publish on pages)
+    Date Created: 2/17/2026
+    Date Last Modified: 5/6/2026
+    Description: This is the html file for the patient-form
+-->
+
+<html>
+	<head>
+		<title>patient-form</title>
+
+		<!-- This is the link to the css file -->
+		<link rel="stylesheet" href="style.css" type="text/css" />
+		<script src="patient-form.js"></script>
+	</head>
+	<!-- This is the header for the page -->
+	<body
+		data-new-gr-c-s-check-loaded="14.1275.0"
+		data-gr-ext-installed
+		data-new-gr-c-s-loaded="14.1275.0"
+	>
+		<div id="header">
+			<table width="100%">
+				<tbody>
+					<tr>
+						<td class="Logo" width="300" height="300">
+							<img
+								src="UnitedMedicalLogo.jpg"
+								alt="logo"
+								width="250"
+								height="250"
+							/>
+						</td>
+						<td id="headertag" valign="top" align="center">
+							<p class="title">United Medical</p>
+						</td>
+						<td valign="bottom" valign="center">
+							<p class="Date" align="left">Today's Date:</p>
+							<span class="Date" id="today"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr />
+		<!-- This is the body for the page -->
+		<div id="body">
+			<form
+				name="patient-form"
+				id="signup"
+				onreset="removedata1()"
+				action="patient-form-thank-you.html"
+			>
+				<table class="form">
+					<tbody>
+						<!-- This is the beginning section for the patient-form where the user sets up a new account -->
+						<tr class="form">
+							<th class="form" colspan="3">Set Up a New Account</th>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<label for="email">Email:</label>
+							</td>
+							<td>
+								<input
+									type="email"
+									size="20"
+									maxlength="30"
+									id="email"
+									name="email"
+									placeholder="example@gmail.com"
+									required
+									pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+									oninput="
+										this.setCustomValidity('');
+										checkemail();
+									"
+									oninvalid="
+										this.setCustomValidity('Please enter a valid email address')
+									"
+									onblur="checkemail()"
+									title="Please enter a valid email address"
+								/>
+								<span id="email_message"></span>
+							</td>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<label for="UserID">UserID:</label>
+							</td>
+							<td>
+								<input
+									type="text"
+									size="20"
+									minlength="5"
+									maxlength="20"
+									id="userid"
+									pattern="[A-Za-z]+[A-Za-z0-9-_]{5,}"
+									name="UserID"
+									required=""
+									oninvalid="
+										this.setCustomValidity(
+											'Invalid User ID. Enter letters, numbers, dash or underscores. 1st character must be a letter.',
+										)
+									"
+									oninput="this.setCustomValidity('')"
+									placeholder=""
+									onblur="
+										checkuserid();
+										checkUserIDvsPassword();
+									"
+									title="Minumum 5 characters; no spaces or 'special' characters."
+								/>
+							</td>
+							<td>
+								<span id="userid_message"></span>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<label for="password">Password:</label>
+							</td>
+							<td>
+								<input
+									type="password"
+									size="15"
+									maxlength="20"
+									id="password1"
+									name="password1"
+									required=""
+									placeholder="(Req'd)"
+									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+									title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+									oninput="
+										passwordentry();
+										checkUserIDvsPassword();
+									"
+									onfocus="passwordentry()"
+									onblur="passwordentry()"
+								/>
+								<span id="password_text"></span>
+							</td>
+						</tr>
+						<!-- This is the area for the password message-->
+						<tr>
+							<td>&nbsp;</td>
+							<td id="password_message1">
+								Enter at least 1 lower case letter: Missing
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td id="password_message2">
+								Enter at least 1 upper case letter: Missing
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td id="password_message3">Enter at least 1 number: Missing</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td id="password_message4">
+								Enter at least 1 special character: Missing
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td id="password_message5">
+								Enter at least 8 characters: Missing
+							</td>
+						</tr>
+						<!-- This is the end of the area for the password message-->
+						<tr>
+							<td align="right">
+								<label for="confirmpassword">Confirm Password:</label>
+							</td>
+							<td>
+								<input
+									type="password"
+									size="15"
+									maxlength="20"
+									id="password2"
+									name="password2"
+									required=""
+									placeholder="(Req'd)"
+									onfocus="checkpassword2()"
+									oninput="checkpassword2()"
+									onblur="checkpassword2()"
+									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+									title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+								/>
+								<span id="password2_text"> </span>
+							</td>
+						</tr>
+					</tbody>
+					<!-- This is the middle section for the patient-form where the user starts entering their personal information -->
+					<tbody>
+						<tr class="form">
+							<th class="form" colspan="3">Patient Information</th>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<label for="fname">First name</label>
+								<label for="middleinit">MI</label>
+								<label for="lname">Last:</label>
+							</td>
+							<td>
+								<input
+									type="text"
+									size="25"
+									maxlength="30"
+									id="firstname"
+									name="firstname"
+									required
+									oninvalid="this.setCustomValidity('First Name is required')"
+									oninput="this.setCustomValidity('')"
+									placeholder="(req'd)"
+									title="Minimum 2 characters; only letters, spaces, '-' and ' allowed"
+									onblur="checkfirstname()"
+								/>
+								<input
+									type="text"
+									size="1"
+									maxlength="1"
+									id="middleinit"
+									name="middleinit"
+									placeholder="Q."
+									onblur="checkmiddle()"
+								/>
+								<input
+									type="text"
+									size="25"
+									maxlength="30"
+									id="lastname"
+									name="lastname"
+									required=""
+									oninvalid="this.setCustomValidity('Last Name is required')"
+									oninput="checklastname()"
+									placeholder="(req'd)"
+									title="Enter your last name using letters, spaces, and apostrophes only."
+									onblur="checklastname()"
+								/>
+							</td>
+							<td>
+								<span id="name_message"></span>
+							</td>
+						</tr>
+
+						<tr class="form">
+							<td align="right">
+								<label for="birthday">Date of Birth</label>
+							</td>
+							<td>
+								<input
+									type="date"
+									id="birthday"
+									name="birthday"
+									title="Enter your birth date (cannot be in the future or more than 120 years ago)."
+									required=""
+									oninput="this.setCustomValidity('')"
+									onblur="checkDoB()"
+									min=""
+									max=""
+								/>
+								<span id="birthday_message"></span>
+								<!--setting the min/max on DoB at page laod: from 120 years ago to today-->
+								<script>
+									(function () {
+										var DoBinput = document.getElementById("birthday");
+										if (!DoBinput) return;
+
+										var today = new Date();
+										var minDoB = new Date();
+										minDoB.setFullYear(today.getFullYear() - 120);
+
+										function toYMD(d) {
+											var y = d.getFullYear();
+											var m = String(d.getMonth() + 1).padStart(2, "0");
+											var day = String(d.getDate()).padStart(2, "0");
+											return y + "-" + m + "-" + day;
+										}
+
+										DoBinput.min = toYMD(minDoB);
+										DoBinput.max = toYMD(today);
+									})();
+								</script>
+							</td>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<label for="SocialSecurity">Social Security Number</label>
+							</td>
+							<td>
+								<input
+									type="password"
+									size="11"
+									maxlength="11"
+									id="SocialSecurity"
+									name="SocialSecurity"
+									placeholder="123-45-6789"
+									pattern="[0-9]{3}-[0-9]{2}-[0-9]{4}"
+									onblur="checkSSN()"
+								/>
+								<span id="ssn_message"></span>
+							</td>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<label for="address1">Address 1:</label>
+							</td>
+							<td>
+								<input
+									type="text"
+									size="20"
+									minlength="4"
+									maxlength="30"
+									id="address1"
+									name="address1"
+									required=""
+									oninvalid="
+										this.setCustomValidity('At least 1 address line Required')
+									"
+									oninput="this.setCustomValidity('')"
+									onblur="checkaddress1()"
+									placeholder="1234 Main St (req'd)"
+								/>
+								<span id="address1_message"></span>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<label for="address2">Address 2:</label>
+							</td>
+							<td>
+								<input
+									type="text"
+									size="20"
+									maxlength="30"
+									id="address2"
+									name="address2"
+									placeholder="Apt #, etc..."
+								/>
+							</td>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<label for="city">City,</label>
+								<label for="state">ST</label>
+								<label for="zip">Zip:</label>
+							</td>
+							<td>
+								<input
+									type="text"
+									size="10"
+									maxlength="25"
+									id="city"
+									name="city"
+									required=""
+									oninvalid="this.setCustomValidity('You forgot City')"
+									oninput="
+										this.setCustomValidity('');
+										checkcity();
+									"
+									onblur="checkcity()"
+									placeholder="Anytown (req'd)"
+									title="Please enter the city you currently reside in."
+								/>
+								<select
+									name="state"
+									id="state"
+									required=""
+									oninvalid="this.setCustomValidity('You forgot State')"
+									oninput="
+										this.setCustomValidity('');
+										checkstate();
+									"
+									onblur="checkstate()"
+									title="Please enter the state you currently reside in."
+								>
+									<option value="" selected="selected">Select a State</option>
+									<option value="AL">Alabama</option>
+									<option value="AK">Alaska</option>
+									<option value="AZ">Arizona</option>
+									<option value="AR">Arkansas</option>
+									<option value="CA">California</option>
+									<option value="CO">Colorado</option>
+									<option value="CT">Connecticut</option>
+									<option value="DE">Delaware</option>
+									<option value="DC">District Of Columbia</option>
+									<option value="FL">Florida</option>
+									<option value="GA">Georgia</option>
+									<option value="HI">Hawaii</option>
+									<option value="ID">Idaho</option>
+									<option value="IL">Illinois</option>
+									<option value="IN">Indiana</option>
+									<option value="IA">Iowa</option>
+									<option value="KS">Kansas</option>
+									<option value="KY">Kentucky</option>
+									<option value="LA">Louisiana</option>
+									<option value="ME">Maine</option>
+									<option value="MD">Maryland</option>
+									<option value="MA">Massachusetts</option>
+									<option value="MI">Michigan</option>
+									<option value="MN">Minnesota</option>
+									<option value="MS">Mississippi</option>
+									<option value="MO">Missouri</option>
+									<option value="MT">Montana</option>
+									<option value="NE">Nebraska</option>
+									<option value="NV">Nevada</option>
+									<option value="NH">New Hampshire</option>
+									<option value="NJ">New Jersey</option>
+									<option value="NM">New Mexico</option>
+									<option value="NY">New York</option>
+									<option value="NC">North Carolina</option>
+									<option value="ND">North Dakota</option>
+									<option value="OH">Ohio</option>
+									<option value="OK">Oklahoma</option>
+									<option value="OR">Oregon</option>
+									<option value="PA">Pennsylvania</option>
+									<option value="RI">Rhode Island</option>
+									<option value="SC">South Carolina</option>
+									<option value="SD">South Dakota</option>
+									<option value="TN">Tennessee</option>
+									<option value="TX">Texas</option>
+									<option value="UT">Utah</option>
+									<option value="VT">Vermont</option>
+									<option value="VA">Virginia</option>
+									<option value="WA">Washington</option>
+									<option value="WV">West Virginia</option>
+									<option value="WI">Wisconsin</option>
+									<option value="WY">Wyoming</option>
+								</select>
+								<input
+									type="text"
+									pattern="[0-9]{5}"
+									size="5"
+									maxlength="5"
+									id="zip"
+									name="zip"
+									required=""
+									oninvalid="
+										this.setCustomValidity('5 Digit Zip/Postal Code required')
+									"
+									oninput="
+										this.setCustomValidity('');
+										checkzip();
+									"
+									onblur="checkzip()"
+									placeholder="00000"
+								/>
+								<span id="city_message"></span>
+								<span id="state_message"></span>
+								<span id="zip_message"></span>
+							</td>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<label for="phone">Phone:</label>
+							</td>
+							<td>
+								<input
+									type="tel"
+									id="phone"
+									name="phone"
+									placeholder="123-456-7890"
+									pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+									required
+									oninput="
+										this.setCustomValidity('');
+										checkphone();
+									"
+									oninvalid="
+										this.setCustomValidity('Please use the 123-456-7890 format')
+									"
+									onblur="checkphone()"
+									title="Please use the 123-456-7890 format"
+								/>
+								<span id="phone_message"></span>
+							</td>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<label for="Sex">Sex:</label>
+							</td>
+							<td>
+								<input type="radio" id="Sex1" name="Sex" value="Male" />
+								<label for="Sex1">Male</label>
+								<input type="radio" id="Sex2" name="Sex" value="Female" />
+								<label for="Sex2">Female</label>
+								<input type="radio" id="Sex3" name="Sex" value="Other" />
+								<label for="Sex3">Other</label>
+							</td>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<label for="Language">Preferred Language:</label>
+							</td>
+							<td>
+								<input
+									type="radio"
+									id="Language-EN"
+									name="Language"
+									value="English"
+								/>
+								<label for="Language-EN">English</label>
+								<input
+									type="radio"
+									id="Language-ES"
+									name="Language"
+									value="Spanish"
+								/>
+								<label for="Language-ES">Spanish</label>
+								<input
+									type="radio"
+									id="Language-Other"
+									name="Language"
+									value="Other"
+								/>
+								<label for="Language-Other">Other</label>
+							</td>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<label for="Insurance">Do you have insurance:</label>
+							</td>
+							<td>
+								<input
+									type="radio"
+									id="Insurance"
+									name="Insurance1"
+									value="Yes"
+								/>
+								<label for="Insurance1">Yes</label>
+								<input
+									type="radio"
+									id="Insurance"
+									name="Insurance2"
+									value="No"
+								/>
+								<label for="Insurance2">No</label>
+							</td>
+						</tr>
+						<!-- Conditions that may apply to the patient in order to help us better serve them -->
+						<tr class="form">
+							<th class="form" colspan="3" align="center">
+								Please select any conditions that may apply to you:
+							</th>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<input
+									type="checkbox"
+									id="condition1"
+									name="condition1"
+									value="Anxiety"
+								/>
+							</td>
+							<td>
+								<label for="condition1"> Anxiety</label>
+							</td>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<input
+									type="checkbox"
+									id="condition2"
+									name="condition2"
+									value="Depression"
+								/>
+							</td>
+							<td>
+								<label for="condition2"> Depression</label>
+							</td>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<input
+									type="checkbox"
+									id="condition3"
+									name="condition3"
+									value="Bipolar Disorder"
+								/>
+							</td>
+							<td>
+								<label for="condition3"> Bipolar Disorder</label>
+							</td>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<input
+									type="checkbox"
+									id="condition4"
+									name="condition4"
+									value="Kidney Disease"
+								/>
+							</td>
+							<td>
+								<label for="condition4">Kidney Disease</label>
+							</td>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<input
+									type="checkbox"
+									id="condition5"
+									name="condition5"
+									value="Covid"
+								/>
+							</td>
+							<td>
+								<label for="condition5">Covid</label>
+							</td>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<input
+									type="checkbox"
+									id="condition6"
+									name="condition6"
+									value="None"
+								/>
+							</td>
+							<td>
+								<label for="condition">None</label>
+							</td>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<label for="Description">Other:</label>
+							</td>
+							<td>
+								<textarea
+									rows="4"
+									cols="50"
+									id="Description"
+									name="Description"
+									placeholder="Please give us more details"
+								></textarea>
+							</td>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<label for="wellnesscheck"
+									>On a scale of 1-10, how severe is the pain?</label
+								>
+							</td>
+							<td align="center">
+								&nbsp;1
+								<input
+									type="range"
+									class="slider"
+									id="wellnesscheck"
+									name="wellnesscheck"
+									min="1"
+									max="10"
+								/>
+								10&nbsp;
+								<br />
+								<span id="rangedisplay" width="10">5</span>
+								<script>
+									var slider = document.getElementById("wellnesscheck");
+									var output = document.getElementById("rangedisplay");
+									output.innerHTML = slider.value;
+									slider.oninput = function () {
+										output.innerHTML = this.value;
+									};
+								</script>
+							</td>
+						</tr>
+					</tbody>
+					<tr>
+						<td colspan="3">
+							<center>
+								<input
+									type="button"
+									id="getdata"
+									value="Get Data"
+									onclick="getdata1()"
+								/>
+								<input
+									type="button"
+									id="check"
+									value="Check Input"
+									onclick="checkform()"
+								/>
+								<input
+									type="submit"
+									id="submit"
+									value="Submit"
+									disabled
+									style="display: none"
+								/>
+								<input type="reset" value="Reset" />
+							</center>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<hr />
+		<!-- This is the footer for the page -->
+		<div id="footer">
+			<p class="footer">
+				United Medical<br />
+				123 Main Street, Anytown, USA <br />
+				(123) 456-7890
+			</p>
+			<!-- This is the action that sends the user to the contact page in the future -->
+			<form action="contact.html">
+				<input type="submit" value="Contact Us" />
+			</form>
+		</div>
+		<div>
+			<p class="outputdata" id="outputformdata" style="display: none"></p>
+		</div>
+		<!-- This is the Javascript for the patient-form date -->
+		<script src="patient-form.js"></script>
+		<!-- This is the Javascript for the patient-form date -->
+		<script>
+			document.getElementById("today").innerHTML =
+				new Date().toLocaleDateString();
+		</script>
+	</body>
+</html>
