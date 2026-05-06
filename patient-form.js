@@ -389,6 +389,44 @@ function checkSSN() {
 	}
 }
 
+//Load in states using Fetch API
+function loadStates() {
+	const stateSelect = document.getElementById("state");
+	if (!stateSelect) return;
+
+	stateSelect.innerHTML = '<option value="">Select a state</option>';
+
+	fetch("states.json")
+		.then((response) => {
+			if (response.ok) {
+				throw new Error("Network response was not ok.");
+			}
+			return response.json();
+		})
+		.then((states) => {
+			stateSelect.innerHTML = "";
+
+			const defaultOption = document.createElement("option");
+			defaultOption.value = "";
+			defaultOption.textContent = "Select a state";
+			defaultOption.selected = true;
+			stateSelect.appendChild(defaultOption);
+
+			states.forEach((st) => {
+				const opt = document.createElement("option");
+				opt.value = st.code;
+				opt.textContent = st.name;
+				stateSelect.appendChild(opt);
+			});
+		})
+		.catch((error) => {
+			console.error("Error loading states:", error);
+			stateSelect.innerHTML = '<option value="">Error loading states</option>';
+		});
+}
+
+document.addEventListener("DOMContentLoaded", loadStates);
+
 // Check everything
 function checkform() {
 	// Reset the error flag
