@@ -35,6 +35,13 @@
 						</td>
 						<td id="headertag" valign="top" align="center">
 							<p class="title">United Medical</p>
+							<p id="welcomeMessage" class="welcome">Welcome new user</p>
+							<div id="notUserContainer" style="display: none">
+								<label>
+									<input type="checkbox" id="notUserCheckbox" />
+									<span id="notUserLabel"></span>
+								</label>
+							</div>
 						</td>
 						<td valign="bottom" valign="center">
 							<p class="Date" align="left">Today's Date:</p>
@@ -623,6 +630,12 @@
 					<tr>
 						<td colspan="3">
 							<center>
+								<div>
+									<label>
+										<input type="checkbox" id="rememberMe" checked="checked" />
+										Remember Me
+									</label>
+								</div>
 								<input
 									type="button"
 									id="getdata"

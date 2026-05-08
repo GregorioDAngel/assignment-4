@@ -49,6 +49,22 @@ p.title {
 	color: rgb(0, 174, 255);
 }
 
+p.welcome {
+	font-family: "Source Sans Pro", sans-serif;
+	font-size: 20px;
+	color: rgb(0, 174, 255);
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+#notUserLabel {
+	font-family: "Source Sans Pro", sans-serif;
+	font-size: 20px;
+	color: rgb(0, 174, 255);
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
 p.outputdata {
 	font-family: "Source Sans Pro", sans-serif;
 	font-weight: normal;

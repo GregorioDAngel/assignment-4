@@ -477,6 +477,7 @@ function checkform() {
 	}
 }
 
+// Sticky Header Minimizer when scrolling
 document.addEventListener("DOMContentLoaded", function () {
 	const header = document.getElementById("header");
 	if (!header) {
@@ -485,8 +486,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 	function onScroll() {
-		// Debug line so you can see this is firing
-		// console.log("scrollY:", window.scrollY);
 		if (window.scrollY > 50) {
 			header.classList.add("header-scrolled");
 		} else {
@@ -494,9 +493,128 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	}
 
-	// Run once in case the page loads scrolled
 	onScroll();
 	window.addEventListener("scroll", onScroll);
+});
+
+//cookie helpers
+function setCookie(name, value, hours) {
+	let expires = "";
+	if (hours) {
+		const date = new Date();
+		date.setTime(date.getTime() + hours * 60 * 60 * 1000);
+		expires = "; expires=" + date.toUTCString();
+	}
+	document.cookie =
+		name + "=" + encodeURIComponent(value) + expires + "; path=/";
+}
+
+function getCookie(name) {
+	const nameEQ = name + "=";
+	const ca = document.cookie.split(";");
+	for (let i = 0; i < ca.length; i++) {
+		let c = ca[i];
+		while (c.charAt(0) === " ") c = c.substring(1, c.length);
+		if (c.indexOf(nameEQ) === 0)
+			return decodeURIComponent(c.substring(nameEQ.length, c.length));
+	}
+	return null;
+}
+
+function deleteCookie(name) {
+	document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+}
+
+// initialize welcome message and prefill from cookie
+document.addEventListener("DOMContentLoaded", function () {
+	const firstNameInput = document.getElementById("firstname");
+	const welcomeMessage = document.getElementById("welcomeMessage");
+	const notUserContainer = document.getElementById("notUserContainer");
+	const notUserLabel = document.getElementById("notUserLabel");
+	const notUserCheckbox = document.getElementById("notUserCheckbox");
+	const rememberMe = document.getElementById("rememberMe");
+	const form = document.getElementById("signup");
+
+	const storedName = getCookie("firstName");
+
+	if (storedName) {
+		// returning user
+		if (welcomeMessage) {
+			welcomeMessage.textContent = "Welcome back, " + storedName;
+		}
+		if (firstNameInput && !firstNameInput.value) {
+			firstNameInput.value = storedName;
+		}
+		if (notUserContainer && notUserLabel) {
+			notUserContainer.style.display = "block";
+			notUserLabel.textContent =
+				"Not " + storedName + "? Click here to start as a NEW USER.";
+		}
+	} else {
+		// new user
+		if (welcomeMessage) {
+			welcomeMessage.textContent = "Welcome new user";
+		}
+		if (notUserContainer) {
+			notUserContainer.style.display = "none";
+		}
+	}
+
+	// when first name changes, update cookie if "Remember Me" is checked
+	if (firstNameInput) {
+		firstNameInput.addEventListener("blur", function () {
+			const name = firstNameInput.value.trim();
+			if (rememberMe && rememberMe.checked && name) {
+				// 48 hours lifetime
+				setCookie("firstName", name, 48);
+				if (welcomeMessage) {
+					welcomeMessage.textContent = "Welcome back, " + name;
+				}
+				if (notUserContainer && notUserLabel) {
+					notUserContainer.style.display = "block";
+					notUserLabel.textContent =
+						"Not " + name + "? Click here to start as a NEW USER.";
+				}
+			} else {
+				deleteCookie("firstName");
+			}
+		});
+	}
+
+	// "Not User?" logic – clear cookie and form, mark as new user
+	if (notUserCheckbox && form) {
+		notUserCheckbox.addEventListener("change", function () {
+			if (notUserCheckbox.checked) {
+				deleteCookie("firstName");
+				// clear the form like reset
+				form.reset();
+				if (welcomeMessage) {
+					welcomeMessage.textContent = "Welcome new user";
+				}
+				if (notUserContainer) {
+					notUserContainer.style.display = "none";
+				}
+				// uncheck remember me by default for fresh start
+				if (rememberMe) {
+					rememberMe.checked = false;
+				}
+				// immediately uncheck the "Not user" checkbox so it doesn't stay on
+				notUserCheckbox.checked = false;
+			}
+		});
+	}
+
+	// Remember Me checkbox: if unchecked, remove cookie
+	if (rememberMe) {
+		rememberMe.addEventListener("change", function () {
+			const name = firstNameInput ? firstNameInput.value.trim() : "";
+			if (rememberMe.checked && name) {
+				setCookie("firstName", name, 48);
+			} else {
+				deleteCookie("firstName");
+			}
+		});
+	}
 });
 
 /* End of document: patient-form.js */
