@@ -581,7 +581,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	}
 
-	// "Not User?" logic – clear cookie and form, mark as new user
+	//clear cookie and form, mark as new user
 	if (notUserCheckbox && form) {
 		notUserCheckbox.addEventListener("change", function () {
 			if (notUserCheckbox.checked) {
@@ -604,7 +604,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	}
 
-	// Remember Me checkbox: if unchecked, remove cookie
+	//if unchecked, remove cookie
 	if (rememberMe) {
 		rememberMe.addEventListener("change", function () {
 			const name = firstNameInput ? firstNameInput.value.trim() : "";
@@ -612,6 +612,96 @@ document.addEventListener("DOMContentLoaded", function () {
 				setCookie("firstName", name, 48);
 			} else {
 				deleteCookie("firstName");
+			}
+		});
+	}
+});
+
+function saveSimpleLocalData() {
+	const rememberMe = document.getElementById("rememberMe");
+	if (!rememberMe || !rememberMe.checked) {
+		// if not remembering, clear and exit
+		localStorage.removeItem("patientSimpleData");
+		return;
+	}
+
+	const email = document.getElementById("email");
+	const userid = document.getElementById("userid");
+	const phone = document.getElementById("phone");
+	const address1 = document.getElementById("address1");
+	const city = document.getElementById("city");
+	const state = document.getElementById("state");
+	const zip = document.getElementById("zip");
+
+	const data = {
+		email: email ? email.value : "",
+		userid: userid ? userid.value : "",
+		phone: phone ? phone.value : "",
+		address1: address1 ? address1.value : "",
+		city: city ? city.value : "",
+		state: state ? state.value : "",
+		zip: zip ? zip.value : "",
+	};
+
+	localStorage.setItem("patientSimpleData", JSON.stringify(data));
+}
+
+function loadSimpleLocalData() {
+	if (!window.localStorage) return;
+	const raw = localStorage.getItem("patientSimpleData");
+	if (!raw) return;
+
+	let data;
+	try {
+		data = JSON.parse(raw);
+	} catch (e) {
+		return;
+	}
+
+	const email = document.getElementById("email");
+	const userid = document.getElementById("userid");
+	const phone = document.getElementById("phone");
+	const address1 = document.getElementById("address1");
+	const city = document.getElementById("city");
+	const state = document.getElementById("state");
+	const zip = document.getElementById("zip");
+
+	if (email && data.email !== undefined) email.value = data.email;
+	if (userid && data.userid !== undefined) userid.value = data.userid;
+	if (phone && data.phone !== undefined) phone.value = data.phone;
+	if (address1 && data.address1 !== undefined) address1.value = data.address1;
+	if (city && data.city !== undefined) city.value = data.city;
+	if (state && data.state !== undefined) state.value = data.state;
+	if (zip && data.zip !== undefined) zip.value = data.zip;
+}
+
+// hook up on page load
+document.addEventListener("DOMContentLoaded", function () {
+	//Load existing values (if any)
+	loadSimpleLocalData();
+
+	//Save when leaving each field
+	const simpleFields = ["email", "userid", "phone", "address1", "city", "zip"];
+	simpleFields.forEach((id) => {
+		const el = document.getElementById(id);
+		if (!el) return;
+		el.addEventListener("blur", saveSimpleLocalData);
+	});
+
+	const stateEl = document.getElementById("state");
+	if (stateEl) {
+		stateEl.addEventListener("change", saveSimpleLocalData);
+	}
+
+	//If Remember Me is unchecked, clear storage immediately
+	const rememberMe = document.getElementById("rememberMe");
+	if (rememberMe) {
+		rememberMe.addEventListener("change", function () {
+			if (!rememberMe.checked) {
+				localStorage.removeItem("patientSimpleData");
+			} else {
+				//if they re-check and fields have values, save them
+				saveSimpleLocalData();
 			}
 		});
 	}
