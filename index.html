@@ -61,148 +61,6 @@
 				action="patient-form-thank-you.html"
 			>
 				<table class="form">
-					<tbody>
-						<!-- This is the beginning section for the patient-form where the user sets up a new account -->
-						<tr class="form">
-							<th class="form" colspan="3">Set Up a New Account</th>
-						</tr>
-						<tr class="form">
-							<td align="right">
-								<label for="email">Email:</label>
-							</td>
-							<td>
-								<input
-									type="email"
-									size="20"
-									maxlength="30"
-									id="email"
-									name="email"
-									placeholder="example@gmail.com"
-									required
-									pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-									oninput="
-										this.setCustomValidity('');
-										checkemail();
-									"
-									oninvalid="
-										this.setCustomValidity('Please enter a valid email address')
-									"
-									onblur="checkemail()"
-									title="Please enter a valid email address"
-								/>
-								<span id="email_message"></span>
-							</td>
-						</tr>
-						<tr class="form">
-							<td align="right">
-								<label for="UserID">UserID:</label>
-							</td>
-							<td>
-								<input
-									type="text"
-									size="20"
-									minlength="5"
-									maxlength="20"
-									id="userid"
-									pattern="[A-Za-z]+[A-Za-z0-9-_]{5,}"
-									name="UserID"
-									required=""
-									oninvalid="
-										this.setCustomValidity(
-											'Invalid User ID. Enter letters, numbers, dash or underscores. 1st character must be a letter.',
-										)
-									"
-									oninput="this.setCustomValidity('')"
-									placeholder=""
-									onblur="
-										checkuserid();
-										checkUserIDvsPassword();
-									"
-									title="Minumum 5 characters; no spaces or 'special' characters."
-								/>
-							</td>
-							<td>
-								<span id="userid_message"></span>
-							</td>
-						</tr>
-						<tr>
-							<td align="right">
-								<label for="password">Password:</label>
-							</td>
-							<td>
-								<input
-									type="password"
-									size="15"
-									maxlength="20"
-									id="password1"
-									name="password1"
-									required=""
-									placeholder="(Req'd)"
-									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-									title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
-									oninput="
-										passwordentry();
-										checkUserIDvsPassword();
-									"
-									onfocus="passwordentry()"
-									onblur="passwordentry()"
-								/>
-								<span id="password_text"></span>
-							</td>
-						</tr>
-						<!-- This is the area for the password message-->
-						<tr>
-							<td>&nbsp;</td>
-							<td id="password_message1">
-								Enter at least 1 lower case letter: Missing
-							</td>
-						</tr>
-						<tr>
-							<td>&nbsp;</td>
-							<td id="password_message2">
-								Enter at least 1 upper case letter: Missing
-							</td>
-						</tr>
-						<tr>
-							<td>&nbsp;</td>
-							<td id="password_message3">Enter at least 1 number: Missing</td>
-						</tr>
-						<tr>
-							<td>&nbsp;</td>
-							<td id="password_message4">
-								Enter at least 1 special character: Missing
-							</td>
-						</tr>
-						<tr>
-							<td>&nbsp;</td>
-							<td id="password_message5">
-								Enter at least 8 characters: Missing
-							</td>
-						</tr>
-						<!-- This is the end of the area for the password message-->
-						<tr>
-							<td align="right">
-								<label for="confirmpassword">Confirm Password:</label>
-							</td>
-							<td>
-								<input
-									type="password"
-									size="15"
-									maxlength="20"
-									id="password2"
-									name="password2"
-									required=""
-									placeholder="(Req'd)"
-									onfocus="checkpassword2()"
-									oninput="checkpassword2()"
-									onblur="checkpassword2()"
-									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-									title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
-								/>
-								<span id="password2_text"> </span>
-							</td>
-						</tr>
-					</tbody>
 					<!-- This is the middle section for the patient-form where the user starts entering their personal information -->
 					<tbody>
 						<tr class="form">
@@ -624,6 +482,148 @@
 										output.innerHTML = this.value;
 									};
 								</script>
+							</td>
+						</tr>
+					</tbody>
+					<tbody>
+						<!-- This is the beginning section for the patient-form where the user sets up a new account -->
+						<tr class="form">
+							<th class="form" colspan="3">Set Up a New Account</th>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<label for="email">Email:</label>
+							</td>
+							<td>
+								<input
+									type="email"
+									size="20"
+									maxlength="30"
+									id="email"
+									name="email"
+									placeholder="example@gmail.com"
+									required
+									pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+									oninput="
+										this.setCustomValidity('');
+										checkemail();
+									"
+									oninvalid="
+										this.setCustomValidity('Please enter a valid email address')
+									"
+									onblur="checkemail()"
+									title="Please enter a valid email address"
+								/>
+								<span id="email_message"></span>
+							</td>
+						</tr>
+						<tr class="form">
+							<td align="right">
+								<label for="UserID">UserID:</label>
+							</td>
+							<td>
+								<input
+									type="text"
+									size="20"
+									minlength="5"
+									maxlength="20"
+									id="userid"
+									pattern="[A-Za-z]+[A-Za-z0-9-_]{5,}"
+									name="UserID"
+									required=""
+									oninvalid="
+										this.setCustomValidity(
+											'Invalid User ID. Enter letters, numbers, dash or underscores. 1st character must be a letter.',
+										)
+									"
+									oninput="this.setCustomValidity('')"
+									placeholder=""
+									onblur="
+										checkuserid();
+										checkUserIDvsPassword();
+									"
+									title="Minumum 5 characters; no spaces or 'special' characters."
+								/>
+							</td>
+							<td>
+								<span id="userid_message"></span>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<label for="password">Password:</label>
+							</td>
+							<td>
+								<input
+									type="password"
+									size="15"
+									maxlength="20"
+									id="password1"
+									name="password1"
+									required=""
+									placeholder="(Req'd)"
+									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+									title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+									oninput="
+										passwordentry();
+										checkUserIDvsPassword();
+									"
+									onfocus="passwordentry()"
+									onblur="passwordentry()"
+								/>
+								<span id="password_text"></span>
+							</td>
+						</tr>
+						<!-- This is the area for the password message-->
+						<tr>
+							<td>&nbsp;</td>
+							<td id="password_message1">
+								Enter at least 1 lower case letter: Missing
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td id="password_message2">
+								Enter at least 1 upper case letter: Missing
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td id="password_message3">Enter at least 1 number: Missing</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td id="password_message4">
+								Enter at least 1 special character: Missing
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td id="password_message5">
+								Enter at least 8 characters: Missing
+							</td>
+						</tr>
+						<!-- This is the end of the area for the password message-->
+						<tr>
+							<td align="right">
+								<label for="confirmpassword">Confirm Password:</label>
+							</td>
+							<td>
+								<input
+									type="password"
+									size="15"
+									maxlength="20"
+									id="password2"
+									name="password2"
+									required=""
+									placeholder="(Req'd)"
+									onfocus="checkpassword2()"
+									oninput="checkpassword2()"
+									onblur="checkpassword2()"
+									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+									title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+								/>
+								<span id="password2_text"> </span>
 							</td>
 						</tr>
 					</tbody>
